@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sala</title>
+</head>
+<body>
+
+    <i id="conexao">Conectando...</i>
+    <ul id="chat">
+
+    </ul>
+   <input style="width: 100%; height: 50px;" id="msg" placeholder="Type here">
+    <input type="submit" onclick="enviar(msg.value)" value="Enviar">
+
+
+<script>
+    var conn = new WebSocket('ws://localhost:8080');
+    var conectado =  false
+
+    conn.onopen = function(e) {
+        conectado = true
+        document.getElementById('conexao').innerHTML = "Connection established!";
+    };
+
+    conn.onmessage = function(e) {
+       var chat =  document.getElementById('chat');
+       var node = document.createElement("li");                 // Create a <li> node
+       var textnode = document.createTextNode(e.data);         // Create a text node
+       node.appendChild(textnode);
+       chat.appendChild(node);
+    };
+
+    function enviar(msg){
+        if (conectado == true) {
+            conn.send(msg);
+            document.getElementById('msg').value = ''
+        }else{
+            alert("O servidor ainda não foi conectado")
+        }
+    }
+</script>
+
+</body>
+</html>
