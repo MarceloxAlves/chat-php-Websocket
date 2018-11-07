@@ -24,9 +24,11 @@
     };
 
     conn.onmessage = function(e) {
+        data = JSON.parse(e.data)
        var chat =  document.getElementById('chat');
        var node = document.createElement("li");                 // Create a <li> node
-       var textnode = document.createTextNode(e.data);         // Create a text node
+       var textnode = document.createTextNode(data.msg);         // Create a text node
+        console.log(data)
        node.appendChild(textnode);
        chat.appendChild(node);
     };
